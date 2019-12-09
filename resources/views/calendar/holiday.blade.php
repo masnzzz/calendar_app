@@ -13,7 +13,8 @@
         </div>
         <button type="submit" class="btn btn-primary">登録</button> 
     </form>
-    
+    <a href="{{ url('/') }}">カレンダーに戻る</a>
+
     <!-- 休日一覧表示 -->
     <table class="table">
         <thead>
