@@ -5,7 +5,16 @@
     <!-- 休日入力フォーム -->
 <form method="POST" action="/holiday"> 
     <div class="form-group">
-        {{csrf_field()}}    
+        {{csrf_field()}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <label for="day">日付[YYYY/MM/DD] </label>
         <input type="text" name="day" class="form-control" id="day" value="{{ $data->day }}">
         <label for="description">説明</label>
@@ -13,8 +22,8 @@
     </div>
         <button type="submit" class="btn btn-primary">登録</button> 
         <input type="hidden" name="id" value="{{ $data->id }}">
+        <a href="{{ url('/') }}">カレンダーに戻る</a>
 </form>
-    <a href="{{ url('/') }}">カレンダーに戻る</a>
 
     <!-- 休日一覧表示 -->
     <table class="table">
@@ -33,6 +42,14 @@
                 <td>{{$val->description}}</td>
                 <td>{{$val->created_at}}</td>
                 <td>{{$val->updated_at}}</td>
+                <td>
+                    <form action="/holiday" method="post">
+                        <input type="hidden" name="id" value="{{ $val->id }}">
+                        {{ method_field('delete') }}
+                        {{ csrf_field() }}
+                        <button class="btn btn-default" type="submit">Delete</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>
